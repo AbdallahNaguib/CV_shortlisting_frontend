@@ -6,23 +6,23 @@ const JobListItem = ({job, onDelete}) => {
     return (
         <tr>
             <td>
-                {job.jobTitle}
+                {job.title}
             </td>
             <td className="project_progress">
-                {job.cvs} CV
+                {job.resumes.length} CV
             </td>
             <td className="project-actions text-right">
-                <Link className="btn btn-primary btn-sm" to={`/view/${job.id}`}>
+                <Link className="btn btn-primary btn-sm" to={`/view/${job._id}`}>
                     <i className="fas fa-folder">
                     </i>
                     View
                 </Link>
-                <Link className="btn btn-info btn-sm" to={`/edit/${job.id}`}>
+                <Link className="btn btn-info btn-sm" to={`/edit/${job._id}`}>
                     <i className="fas fa-pencil-alt">
                     </i>
                     Edit
                 </Link>
-                <button className="btn btn-danger btn-sm" onClick={() => onDelete(job.id)}>
+                <button className="btn btn-danger btn-sm" onClick={() => onDelete(job._id)}>
                     <i className="fas fa-trash">
                     </i>
                     Delete

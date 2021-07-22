@@ -1,5 +1,5 @@
 import JobDetailsItem from "./JobDetailsItem";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 const JobDetails = () => {
     const {id} = useParams();
     return (
@@ -62,11 +62,11 @@ const JobDetails = () => {
                                     terr.</p>
                                 <br/>
                                 <div className="text-center mt-5 mb-3">
-                                    <a className="btn btn-info btn-sm" href="/edit">
+                                    <Link className="btn btn-info btn-sm" to={`/edit/${id}`}>
                                         <i className="fas fa-pencil-alt">
                                         </i>
                                         Edit
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

@@ -8,25 +8,28 @@ const JobList = () => {
     const [jobs, setJobs] = useState([])
 
     const fetchJobs = async () => {
-        // todo fetch from backend
-        const jobs = [{id: 1, jobTitle: "web developer", cvs: 20}, {id: 2, jobTitle: "android developer", cvs: 40},
-            {id: 3, jobTitle: "react developer", cvs: 10}, {id: 4, jobTitle: "react developer", cvs: 10}
-            , {id: 5, jobTitle: "react developer", cvs: 10}, {id: 6, jobTitle: "react developer", cvs: 10}]
-        return jobs
+        const res = await fetch('http://localhost:3000/jobs',{
+            method: "get",
+        });
+        const jobs = await res.json();
+        console.log(jobs)
+        return jobs;
     }
     const deleteJob = async (id) => {
-        // todo
-        // await fetch(`http://localhost:3000/jobs/${id}`, {
-        //     method: 'DELETE'
-        // });
-        setJobs(jobs.filter((job) => job.id !== id));
+        const response = await fetch(`http://localhost:3000/jobs/${id}`, {
+            method: 'DELETE'
+        });
+        const json = await response.json()
+        if(json.success === "true") {
+            setJobs(jobs.filter((job) => job.id !== id));
+        }
     }
     // this will happen once the page is loaded
     useEffect(() => {
         const getJobs = async () => {
-            const jobsFromServer = await fetchJobs()
-            setJobs(jobsFromServer)
-        }
+            const jobsFromServer = await fetchJobs();
+            setJobs(jobsFromServer);
+        };
         getJobs()
     }, [])
 
