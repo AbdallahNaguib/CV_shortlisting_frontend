@@ -1,8 +1,8 @@
 import './App.css';
-import Login from './pages/Login'
-import Register from "./pages/Register";
-import MainContainer from "./components/MainContainer"
 
+import MainContainer from "./components/MainContainer"
+import NavBar from "./components/NavBar";
+import jobList from "./components/Job list";
 function App() {
   return (
     <MainContainer/>
