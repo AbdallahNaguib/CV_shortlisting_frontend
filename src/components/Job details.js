@@ -1,28 +1,34 @@
-import JobDetailsItem from "./JobDetailsItem";
 import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import JobDetailsItem from "./JobDetailsItem";
 
-const JobDetails = () => {
+function JobDetails() {
     const {id} = useParams();
-    const [job, setJob] = useState(null)
+    const [job, setJob] = useState({resumes:[],title:'',description:''})
 
     const fetchJob = async () => {
-        console.log('ssssssssssssssssssssssssss')
         const res = await fetch(`http://localhost:3000/jobs/${id}`, {
             method: "get",
         });
         const job = await res.json();
-        console.log(job)
+        console.log(job);
         return job;
     }
-    // this will happen once the page is loaded
+    const deleteCV = async (cvId) => {
+        const response = await fetch(`http://localhost:3000/jobs/${id}/resumes/${cvId}`, {
+            method: 'delete'
+        });
+        const json = await response.json()
+        console.log(json)
+        setJob({resumes:job.resumes.filter((resume) => resume._id !== cvId) , title:job.title , description:job.description});
+    }
     useEffect(() => {
-        console.log('hiiiiiiiiiii')
         const getJob = async () => {
-            setJob(await fetchJob());
+            const job = await fetchJob();
+            setJob(job);
         };
-        getJob()
-    }, [job])
+        getJob();
+    },[]);
 
     return (
         <div className="content-wrapper">
@@ -70,9 +76,9 @@ const JobDetails = () => {
                                     </thead>
                                     <tbody>
                                     {
-                                        job.resumes.map(resume => (
-                                            <JobDetailsItem sim={Math.round(resume.percentage * 100)} filename={resume.filename.split('$')[1]}/>
-                                        ))
+                                        job.resumes.length>0 ? job.resumes.map(resume => (
+                                            <JobDetailsItem resume = {resume} ondelete = {deleteCV}/>
+                                        )) : ""
                                     }
 
                                     </tbody>
@@ -95,6 +101,7 @@ const JobDetails = () => {
                 </div>
             </section>
         </div>
-    )
+    );
 }
+
 export default JobDetails

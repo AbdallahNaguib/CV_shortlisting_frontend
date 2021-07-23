@@ -17,16 +17,14 @@ const JobList = () => {
     }
     const deleteJob = async (id) => {
         const response = await fetch(`http://localhost:3000/jobs/${id}`, {
-            method: 'DELETE'
+            method: 'delete'
         });
         const json = await response.json()
-        if(json.success === "true") {
-            setJobs(jobs.filter((job) => job.id !== id));
-        }
+        console.log(json)
+        setJobs(jobs.filter((job) => job._id !== id));
     }
     // this will happen once the page is loaded
     useEffect(() => {
-        console.log("sssssssssssssssssssssssssssssssssssssss")
         const getJobs = async () => {
             const jobsFromServer = await fetchJobs();
             setJobs(jobsFromServer);
@@ -69,7 +67,7 @@ const JobList = () => {
                                 <tbody>
                                 {
                                     jobs.map(job => (
-                                            <JobListItem job={job} ondelete={deleteJob}/>
+                                            <JobListItem job={job} onDelete={deleteJob}/>
                                         )
                                     )
                                 }

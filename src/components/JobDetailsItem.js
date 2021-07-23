@@ -1,33 +1,32 @@
-const JobDetailsItem = ({filename,sim}) => {
+const JobDetailsItem = ({resume,ondelete}) => {
     return (<tr>
             <td>
-                {filename}
+                {resume.filename.split('$')[1]}
             </td>
 
             <td className="project_progress">
                 <div className="progress progress-sm">
                     <div className="progress-bar bg-green" role="progressbar"
                          aria-valuenow="77" aria-valuemin="0"
-                         aria-valuemax="100" style={{width: `${sim}%`}}>
+                         aria-valuemax="100" style={{width: `${Math.round(resume.percentage * 100)}%`}}>
                     </div>
                 </div>
                 <small>
-                    {sim}%
+                    {Math.round(resume.percentage * 100)}%
                 </small>
             </td>
 
             <td className="project-actions text-right">
-                <a className="btn btn-primary btn-sm" href="/cv/view">
+                <button className="btn btn-primary btn-sm" onClick={()=> window.open(`http://localhost:3000/${resume.path}`, "_blank")}>
                     <i className="fas fa-folder">
                     </i>
                     View
-                </a>
-
-                <a className="btn btn-danger btn-sm" href="/cv/delete">
+                </button>
+                <button className="btn btn-danger btn-sm" onClick={()=>ondelete(resume._id)}>
                     <i className="fas fa-trash">
                     </i>
                     Delete
-                </a>
+                </button>
             </td>
         </tr>
     )

@@ -1,18 +1,17 @@
 import {useEffect, useRef, useState} from "react";
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 const JobCreate = () => {
+    const navigate = useNavigate()
     const [selectedFiles, setSelectedFiles] = useState(null);
     const [title,setTitle] = useState("");
     const [description,setDes] = useState("");
     const createJob = async () => {
-        console.log("in create job")
         const data = new FormData()
         for (var x = 0; x < selectedFiles.length; x++) {
             data.append('filefield', selectedFiles[x])
         }
-        console.log("dasdasfasdfhawdklfhasduifygaiofhasdfuiasgfu8s")
-        console.log(description)
         data.append('description', description);
         data.append('title', title);
         axios.post("http://localhost:3000/jobs", data, {
@@ -22,10 +21,8 @@ const JobCreate = () => {
         }).then(res => { // then print response status
             console.log(res)
         })
+
     }
-    useEffect(() => {
-        console.log("sssssssssssssssssssssssssssssssssssssss")
-    }, [])
     return (
         <div className="wrapper">
             <div className="wrapper">
@@ -74,7 +71,7 @@ const JobCreate = () => {
                         <div className="row">
                             <div className="col-12">
                                 <input type="submit"
-                                       value="Create new Porject" className="btn btn-success float-right"
+                                       value="Create new Job" className="btn btn-success float-right"
                                        style={{"margin-right": "115px"}}/>
                             </div>
                         </div>

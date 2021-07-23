@@ -1,7 +1,40 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
 
-const JobEdit = () =>{
+const JobEdit = () => {
+    const navigate = useNavigate();
     const {id} = useParams();
+    const [job, setJob] = useState({title: '', description: ''})
+    const fetchJob = async () => {
+        const res = await fetch(`http://localhost:3000/jobs/${id}`, {
+            method: "get"
+        });
+        const job = await res.json();
+        console.log(job);
+        return job;
+    }
+
+    useEffect(() => {
+        const getJob = async () => {
+            const job = await fetchJob();
+            setJob(job);
+        };
+        getJob();
+    }, []);
+
+    const updateJob = async () => {
+        const res = await fetch(`http://localhost:3000/jobs/${id}`, {
+            method: "put",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(job)
+        })
+        const jobUpdated=await res.json();
+        console.log(jobUpdated)
+        setJob(jobUpdated)
+        navigate(`/view/${id}`);
+    }
     return (
         <div className="wrapper">
 
@@ -25,11 +58,19 @@ const JobEdit = () =>{
                                     <div className="card-body">
                                         <div className="form-group">
                                             <label htmlFor="inputName">Job Name</label>
-                                            <input type="text" id="inputName" className="form-control"/>
+                                            <input type="text" id="inputName" value={job.title}
+                                                   onChange={(c) => setJob({
+                                                       title: c.target.value,
+                                                       description: job.description
+                                                   })} className="form-control"/>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="inputDescription">Job Description</label>
-                                            <textarea id="inputDescription" className="form-control" rows="4"/>
+                                            <textarea id="inputDescription" className="form-control"
+                                                      value={job.description} onChange={(c) => setJob({
+                                                description: c.target.value,
+                                                title: job.title
+                                            })} rows="4"/>
                                         </div>
 
                                     </div>
@@ -39,7 +80,7 @@ const JobEdit = () =>{
                     </section>
                     <div className="row">
                         <div className="col-12">
-                            <input type="submit" value="Save" className="btn btn-success float-left"
+                            <input onClick={updateJob} value="Save" className="btn btn-success float-left"
                                    style={{"margin-left": "10px"}}/>
                         </div>
                     </div>
