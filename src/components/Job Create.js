@@ -3,7 +3,9 @@ import axios from 'axios';
 
 const JobCreate = () => {
     const [selectedFiles, setSelectedFiles] = useState(null);
-    const createJob = async (title, description) => {
+    const [title,setTitle] = useState("");
+    const [description,setDes] = useState("");
+    const createJob = async () => {
         console.log("in create job")
         const data = new FormData()
         for (var x = 0; x < selectedFiles.length; x++) {
@@ -16,11 +18,7 @@ const JobCreate = () => {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(res => { // then print response status
-            console.log("herehereherehereherehereherehere")
             console.log(res)
-        }).catch(error=>{
-            console.log("errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
-            console.log(error.toString())
         })
     }
     return (
@@ -37,7 +35,7 @@ const JobCreate = () => {
                             </div>
                         </div>
                     </section>
-                    <form onSubmit={() => createJob("this is title", "this is description")}>
+                    <form onSubmit={() => createJob()}>
                         <section className="content">
                             <div className="row">
                                 <div className="col-md-6">
@@ -45,11 +43,11 @@ const JobCreate = () => {
                                         <div className="card-body">
                                             <div className="form-group">
                                                 <label htmlFor="inputName">Job Name</label>
-                                                <input type="text" id="inputName" className="form-control"/>
+                                                <input type="text" id="inputName" onChange={c=>setTitle(c.target.value)} className="form-control"/>
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="inputDescription">Job Description</label>
-                                                <textarea id="inputDescription" className="form-control" rows="4"/>
+                                                <textarea id="inputDescription" className="form-control" rows="4" onChange={c=>setDes(c)}/>
                                             </div>
 
                                         </div>
