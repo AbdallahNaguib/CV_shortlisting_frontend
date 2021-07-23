@@ -26,6 +26,7 @@ const JobList = () => {
     }
     // this will happen once the page is loaded
     useEffect(() => {
+        console.log("sssssssssssssssssssssssssssssssssssssss")
         const getJobs = async () => {
             const jobsFromServer = await fetchJobs();
             setJobs(jobsFromServer);

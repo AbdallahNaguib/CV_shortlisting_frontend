@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from 'axios';
 
 const JobCreate = () => {
@@ -11,8 +11,10 @@ const JobCreate = () => {
         for (var x = 0; x < selectedFiles.length; x++) {
             data.append('filefield', selectedFiles[x])
         }
-        data.append('title', title);
+        console.log("dasdasfasdfhawdklfhasduifygaiofhasdfuiasgfu8s")
+        console.log(description)
         data.append('description', description);
+        data.append('title', title);
         axios.post("http://localhost:3000/jobs", data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -21,6 +23,9 @@ const JobCreate = () => {
             console.log(res)
         })
     }
+    useEffect(() => {
+        console.log("sssssssssssssssssssssssssssssssssssssss")
+    }, [])
     return (
         <div className="wrapper">
             <div className="wrapper">
@@ -47,7 +52,7 @@ const JobCreate = () => {
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="inputDescription">Job Description</label>
-                                                <textarea id="inputDescription" className="form-control" rows="4" onChange={c=>setDes(c)}/>
+                                                <textarea id="inputDescription" className="form-control" rows="4" onChange={c=>setDes(c.target.value)}/>
                                             </div>
 
                                         </div>

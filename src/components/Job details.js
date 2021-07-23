@@ -1,7 +1,29 @@
 import JobDetailsItem from "./JobDetailsItem";
 import {Link, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+
 const JobDetails = () => {
     const {id} = useParams();
+    const [job, setJob] = useState(null)
+
+    const fetchJob = async () => {
+        console.log('ssssssssssssssssssssssssss')
+        const res = await fetch(`http://localhost:3000/jobs/${id}`, {
+            method: "get",
+        });
+        const job = await res.json();
+        console.log(job)
+        return job;
+    }
+    // this will happen once the page is loaded
+    useEffect(() => {
+        console.log('hiiiiiiiiiii')
+        const getJob = async () => {
+            setJob(await fetchJob());
+        };
+        getJob()
+    }, [job])
+
     return (
         <div className="content-wrapper">
             <section className="content">
@@ -47,19 +69,18 @@ const JobDetails = () => {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <JobDetailsItem sim={77} filename={"abdo naguib.pdf"}/>
-                                        <JobDetailsItem sim={20} filename={"abdo naguib.pdf"}/>
+                                    {
+                                        job.resumes.map(resume => (
+                                            <JobDetailsItem sim={Math.round(resume.percentage * 100)} filename={resume.filename.split('$')[1]}/>
+                                        ))
+                                    }
+
                                     </tbody>
                                 </table>
                             </div>
                             <div className="col-12 col-md-12 col-lg-4 order-1 order-md-2">
-                                <h3 className="text-primary">Job name</h3>
-                                <p className="text-muted">Job Description : Raw denim you probably haven't heard of them
-                                    jean shorts Austin.
-                                    Nesciunt tofu
-                                    stumptown aliqua butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh
-                                    mi, qui irure
-                                    terr.</p>
+                                <h3 className="text-primary">{job.title}</h3>
+                                <p className="text-muted">{job.description}</p>
                                 <br/>
                                 <div className="text-center mt-5 mb-3">
                                     <Link className="btn btn-info btn-sm" to={`/edit/${id}`}>
