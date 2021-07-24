@@ -1,5 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import Cookies from "js-cookie";
+import NavBar from "./NavBar";
 
 const JobEdit = () => {
     const navigate = useNavigate();
@@ -7,14 +9,23 @@ const JobEdit = () => {
     const [job, setJob] = useState({title: '', description: ''})
     const fetchJob = async () => {
         const res = await fetch(`http://localhost:3000/jobs/${id}`, {
-            method: "get"
+            method: "get",
+            headers: {
+                'Authorization': "Bearer "+Cookies.get('token')
+            }
         });
         const job = await res.json();
         console.log(job);
         return job;
     }
 
+    const checkAuth = () => {
+        const session = Cookies.get('token');
+        if (typeof session === 'undefined')
+            navigate('/login')
+    }
     useEffect(() => {
+        checkAuth()
         const getJob = async () => {
             const job = await fetchJob();
             setJob(job);
@@ -26,7 +37,8 @@ const JobEdit = () => {
         const res = await fetch(`http://localhost:3000/jobs/${id}`, {
             method: "put",
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'Authorization': "Bearer "+Cookies.get('token')
             },
             body: JSON.stringify(job)
         })
@@ -37,7 +49,7 @@ const JobEdit = () => {
     }
     return (
         <div className="wrapper">
-
+            <NavBar/>
             <div className="wrapper">
 
                 <div className="content-wrapper">
