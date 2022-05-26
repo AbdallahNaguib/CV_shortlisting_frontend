@@ -1,4 +1,4 @@
-![alt text](Screenshot-from-2022-05-26-23-23-12.png)
+![alt text](/Screenshot-from-2022-05-26-23-23-12.png)
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
